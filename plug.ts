@@ -93,6 +93,11 @@ export async function download(options: Options): Promise<string> {
   if ((options.log ?? true) && !(await plug.exists(url))) {
     console.log(`${green("Download")} ${url}`);
   }
+
+  if (options.policy === CachePolicy.NONE) {
+    return new URL(url).pathname;
+  }
+
   const file = await plug.cache(url, policy);
 
   return file.path;
